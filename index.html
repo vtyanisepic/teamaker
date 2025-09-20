@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tea Maker</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <h1>Tea Maker</h1>
+    <p>Cash: $<span></span></p>
+    <button class="actionButton" id="brewTea">Make a cup of tea</button>
+
+    <div id="warehouseSection">
+        <h2>Warehouse</h2>
+        <table class="sectionTable">
+            <thead>
+                <tr>
+                    <th>Ingredient</th>
+                    <th>Stock</th>
+                    <th>Buy</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr id="teaLeavesRow">
+                    <td>Tea Leaves</td>
+                    <td><span id="teaLeavesStock"></span></td>
+                    <td><button class="actionButton" id="teaLeavesBuy" onclick="buyIngredient('teaLeaves')">+1</button></td>
+                </tr>
+                <tr id="emptyCupsRow">
+                    <td>Empty Cups</td>
+                    <td><span id="emptyCupsStock"></span></td>
+                    <td><button class="actionButton" id="emptyCupsBuy" onclick="buyIngredient('emptyCups')">+1</button></td>
+                </tr>
+                <tr id="sweetenersRow">
+                    <td>Sweeteners</td>
+                    <td><span id="sweetenersStock"></span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="marketSection">
+        <h2>Market</h2>
+        <table class="sectionTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Stock</th>
+                    <th>Demand</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr id="blandTeaRow">
+                    <td>Bland Tea</td>
+                    <td><span id="blandTeaStock"></span></td>
+                    <td><span id="blandTeaDemand"></span></td>
+                    <td>$<span id="blandTeaPrice"></span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+</html>
