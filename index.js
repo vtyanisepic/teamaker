@@ -74,8 +74,12 @@ function calculateDemand(popularity) {
 
 function calculateDemandTemp() {
     for (let tea in player.brewedTea) {
-        if (player.brewedTea[tea].demand <= 10) {
+        if (player.brewedTea[tea].demand < 10) {
             player.brewedTea[tea].demand++;
+        }
+        if (player.brewedTea[tea].amount >= 1 && player.brewedTea[tea].demand >= 1) {
+            player.brewedTea[tea].amount--; player.brewedTea[tea].demand--;
+            player.money += player.brewedTea[tea].price;
         }
     }
 }
