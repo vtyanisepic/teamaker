@@ -66,13 +66,22 @@ function calculateDemand(popularity) {
         [600, 0.3],
         [1500, 0.4],
     ]
-    let thresholdToDemand = thresholds.map()
+    let thresholdToDemand = thresholds.map(([max, perSecond], index) => [max, index === 0 ? 0 : thresholds[index - 1][0], value])
     let demand = 0;
-    if (popularity === 0) return; //if it's somehow zero then do nothing
+    if (popularity === 0) demand++; //if it's somehow zero then do nothing
     
 }
 
+function calculateDemandTemp() {
+    for (let tea in player.brewedTea) {
+        if (player.brewedTea[tea].demand <= 10) {
+            player.brewedTea[tea].demand++;
+        }
+    }
+}
+
 function updateGame(deltaTime) {
+    calculateDemandTemp();
     renderUI();
 }
 
