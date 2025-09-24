@@ -105,6 +105,7 @@ function sellTea() {
 
 function updateGame(deltaTime) {
     if (player.stage > 0) calculateDemand(player.popularity, deltaTime)
+    sellTea()
     renderUI()
 }
 
