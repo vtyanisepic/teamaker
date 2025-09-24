@@ -97,7 +97,7 @@ function calculateDemand(popularity, delta) {
 
 function sellTea() {
     for (let tea in player.brewedTea) {
-        if (player.brewedTea[tea].demand > 0) {
+        if (player.brewedTea[tea].amount > 0 && player.brewedTea[tea].demand > 0) {
             player.brewedTea[tea].amount--; player.brewedTea[tea].demand--; player.money += player.brewedTea[tea].price
         }
     }
