@@ -3,64 +3,87 @@
 <head>
     <title>Tea Maker</title>
     <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/odometer.js/0.4.8/themes/odometer-theme-default.min.css" />
 </head>
 <body>
     <h1>Tea Maker</h1>
-    <p>Cash: $<span></span></p>
-    <button class="actionButton" id="brewTea">Make a cup of tea</button>
+    <div style="display: flex; align-items: flex-start; gap: 20px;">
+        <div id="first">
+            <p>Cash: $<span></span></p>
+            <button class="actionButton" onclick="actionButton('brewTea')">Make a cup of tea</button>
 
-    <div id="warehouseSection">
-        <h2>Warehouse</h2>
-        <table class="sectionTable">
-            <thead>
-                <tr>
-                    <th>Ingredient</th>
-                    <th>Stock</th>
-                    <th>Buy</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr id="teaLeavesRow">
-                    <td>Tea Leaves</td>
-                    <td><span id="teaLeavesStock"></span></td>
-                    <td><button class="actionButton" id="teaLeavesBuy" onclick="buyIngredient('teaLeaves')">+1</button></td>
-                </tr>
-                <tr id="emptyCupsRow">
-                    <td>Empty Cups</td>
-                    <td><span id="emptyCupsStock"></span></td>
-                    <td><button class="actionButton" id="emptyCupsBuy" onclick="buyIngredient('emptyCups')">+1</button></td>
-                </tr>
-                <tr id="sweetenersRow">
-                    <td>Sweeteners</td>
-                    <td><span id="sweetenersStock"></span></td>
-                    <td><button class="actionButton" id="sweetenersBuy" onclick="buyIngredient('emptyCups')">+1</button></td>
-                </tr>
-            </tbody>
-        </table>
+            <div id="warehouseSection">
+                <h2>Warehouse</h2>
+                <table class="sectionTable">
+                    <thead>
+                        <tr>
+                            <th>Ingredient</th>
+                            <th>Stock</th>
+                            <th>Buy</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr id="teaLeavesRow">
+                            <td>Tea Leaves</td>
+                            <td><span id="teaLeavesStock"></span></td>
+                            <td><button class="actionButton" id="teaLeavesBuy" onclick="actionButton('teaLeaves')">+1</button></td>
+                        </tr>
+                        <tr id="emptyCupsRow">
+                            <td>Empty Cups</td>
+                            <td><span id="emptyCupsStock"></span></td>
+                            <td><button class="actionButton" id="emptyCupsBuy" onclick="actionButton('emptyCups')">+1</button></td>
+                        </tr>
+                        <tr id="sweetenersRow">
+                            <td>Sweeteners</td>
+                            <td><span id="sweetenersStock"></span></td>
+                            <td><button class="actionButton" id="sweetenersBuy" onclick="actionButton('emptyCups')">+1</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="marketSection">
+                <h2>Market</h2>
+                <table class="sectionTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Stock</th>
+                            <th>Demand</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr id="blandTeaRow">
+                            <td>Bland Tea</td>
+                            <td><span id="blandTeaStock"></span></td>
+                            <td><span id="blandTeaDemand"></span></td>
+                            <td>$<span id="blandTeaPrice"></span></td>
+                        </tr>
+                        <caption>Popularity: <span></span></caption>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="second">
+            <br><br><br><br>
+            <div id="research">
+                <h2>Research</h2>
+                
+                <!-- <table class="sectionTable" style="min-width: 100px;">
+                    <thead>
+                        <tr>
+                            <th>Research</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Hi!</td></tr>
+                    </tbody>
+                </table> -->
+            </div>
+        </div>
     </div>
-
-    <div id="marketSection">
-        <h2>Market</h2>
-        <table class="sectionTable">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Stock</th>
-                    <th>Demand</th>
-                    <th>Price</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr id="blandTeaRow">
-                    <td>Bland Tea</td>
-                    <td><span id="blandTeaStock"></span></td>
-                    <td><span id="blandTeaDemand"></span></td>
-                    <td>$<span id="blandTeaPrice"></span></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/odometer.js/0.4.8/odometer.min.js"></script> -->
     <script src="index.js"></script>
 </body>
 </html>

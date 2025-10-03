@@ -1,6 +1,6 @@
 let player = {
     money: 0,
-    popularity: 50,
+    popularity: 0,
     stage: 0,
     ingredients: {
         teaLeaves: {amount: 5, price: 5, purchaseAmount: 10},
@@ -9,16 +9,32 @@ let player = {
     },
     brewedTea: {
         blandTea: {amount: 0, price: 10, demand: 0, creation: {teaLeaves: 5, emptyCups: 1}},
-    }
+    },
+    researches: {}
 }
 
-function buyIngredient(ingredient) {
-    if (player.money >= player.ingredients[ingredient].price) {
-        player.money -= player.ingredients[ingredient].price
-        player.ingredients[ingredient].amount += player.ingredients[ingredient].purchaseAmount
-        console.log(`Bought ${player.ingredients[ingredient].purchaseAmount} ${ingredient}.`)
-    } else {
-        console.log("Not enough money")
+function actionButton(item) {
+    if (item in player.ingredients) {
+        if (player.money >= player.ingredients[item].price) {
+            player.money -= player.ingredients[item].price
+            player.ingredients[item].amount += player.ingredients[item].purchaseAmount
+            console.log(`Bought ${player.ingredients[item].purchaseAmount} ${item}.`)
+        } else {
+            console.log("Not enough money")
+        } 
+    } else if (item === "brewTea") {
+        if (player.stage === 0) {
+            player.stage++
+            console.log(`player.stage = ${player.stage}`)
+        }
+        const required = player.brewedTea.blandTea.creation
+        if (haveEnough(required, player.ingredients)) {
+            for (let item in required) {
+                player.ingredients[item].amount -= required[item]
+            }
+            player.brewedTea.blandTea.amount++
+            console.log("Brewed a cup of bland tea!")
+        }
     }
 }
 
@@ -33,9 +49,10 @@ function haveEnough(required, available) {
 
 function renderUI() {
     document.querySelector("p span").innerText = player.money
-    // document.getElementById("brewTea").style.display = ""
+    document.querySelector("caption span").innerText = player.popularity
 
     //warehouse
+    document.getElementById("sweetenersRow").style.display = player.ingredients.sweeteners > 0 ? "" : "none"
     for (let ingredient in player.ingredients) {
         if (document.getElementById(`${ingredient}Row`).checkVisibility()) {
             document.getElementById(`${ingredient}Stock`).innerText = player.ingredients[ingredient].amount
@@ -52,10 +69,6 @@ function renderUI() {
             document.getElementById(`${tea}Demand`).innerText = player.brewedTea[tea].demand
         }
     }
-
-    //visibility
-    // document.getElementById("warehouseSection").style.display = ""
-    document.getElementById("sweetenersRow").style.display = player.ingredients.sweeteners > 0 ? "" : "none"
 }
 
 const thresholds = [ // popularity, demand per second
@@ -98,7 +111,7 @@ function calculateDemand(popularity, delta) {
 function sellTea() {
     for (let tea in player.brewedTea) {
         if (player.brewedTea[tea].amount > 0 && player.brewedTea[tea].demand > 0) {
-            player.brewedTea[tea].amount--; player.brewedTea[tea].demand--; player.money += player.brewedTea[tea].price
+            player.brewedTea[tea].amount--; player.brewedTea[tea].demand--; player.money += player.brewedTea[tea].price; player.popularity++
         }
     }
 }
@@ -110,23 +123,6 @@ function updateGame(deltaTime) {
 }
 
 window.onload = () => {
-    const brewTea = document.getElementById("brewTea")
-    brewTea.addEventListener("click", () => {
-        if (player.stage === 0) {
-            player.stage++
-            console.log(`player.stage = ${player.stage}`)
-        }
-        const required = player.brewedTea.blandTea.creation
-        if (haveEnough(required, player.ingredients)) {
-            for (let item in required) {
-                player.ingredients[item].amount -= required[item]
-            }
-            player.brewedTea.blandTea.amount++
-            console.log("Brewed a cup of bland tea!")
-        } else {
-            console.log("Not enough ingredients to brew tea.")
-        }
-    })
     let lastTime = performance.now()
     setInterval(function gameLoop() {
         const currentTime = performance.now()

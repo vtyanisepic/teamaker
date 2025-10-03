@@ -19,6 +19,11 @@ h2 {
     margin: 15px 0 5px 0;
 }
 
+caption {
+    caption-side: bottom;
+    text-align: left;
+}
+
 .actionButton {
     font-family: inherit;
     font-size: 13px;
@@ -48,4 +53,10 @@ h2 {
 .sectionTable th {
     font-weight: normal;
     background: #f4f4f4;
+}
+
+#warehouseSection, #marketSection {
+    border: 1px solid black;
+    padding: 5px;
+    margin-top: 5px;
 }
