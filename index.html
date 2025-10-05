@@ -9,7 +9,7 @@
     <h1>Tea Maker</h1>
     <div style="display: flex; align-items: flex-start; gap: 20px;">
         <div id="first">
-            <p>Cash: $<span></span></p>
+            <p id="cashDisplay">Cash: $</p>
             <button class="actionButton" onclick="actionButton('brewTea')">Make a cup of tea</button>
 
             <div id="warehouseSection">
@@ -60,26 +60,18 @@
                             <td><span id="blandTeaDemand"></span></td>
                             <td>$<span id="blandTeaPrice"></span></td>
                         </tr>
-                        <caption>Popularity: <span></span></caption>
+                        <caption id="popularityDisplay"></caption>
                     </tbody>
                 </table>
             </div>
         </div>
         <div id="second">
             <br><br><br><br>
-            <div id="research">
+            <div id="researchSection">
                 <h2>Research</h2>
-                
-                <!-- <table class="sectionTable" style="min-width: 100px;">
-                    <thead>
-                        <tr>
-                            <th>Research</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Hi!</td></tr>
-                    </tbody>
-                </table> -->
+                <button class="actionButton" id="lemonJuice" onclick="actionButton('lemonJuice')">Lemon Juice Recipe</button>
+                <p id="ideasDisplay">Ideas: </p>
+                <p style="margin-top: -15px;">Funding: $<input value="0"></p>
             </div>
         </div>
     </div>

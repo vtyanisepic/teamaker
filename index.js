@@ -1,16 +1,21 @@
 let player = {
     money: 0,
+    ideas: 0,
     popularity: 0,
     stage: 0,
     ingredients: {
         teaLeaves: {amount: 5, price: 5, purchaseAmount: 10},
         emptyCups: {amount: 1, price: 1, purchaseAmount: 2},
-        sweeteners: {amount: 0, price: 0, purchaseAmount: 0},
+        sweeteners: {amount: 0, price: 0, purchaseAmount: 0, unlocked: false},
     },
     brewedTea: {
         blandTea: {amount: 0, price: 10, demand: 0, creation: {teaLeaves: 5, emptyCups: 1}},
     },
-    researches: {}
+    unlockedResearches: {}
+}
+
+const researches = {
+    lemonJuice: {visible: () => player.ideas >= 10 && !player.unlockedResearches.includes("lemonJuice"), price: 50}
 }
 
 function actionButton(item) {
@@ -18,10 +23,16 @@ function actionButton(item) {
         if (player.money >= player.ingredients[item].price) {
             player.money -= player.ingredients[item].price
             player.ingredients[item].amount += player.ingredients[item].purchaseAmount
-            console.log(`Bought ${player.ingredients[item].purchaseAmount} ${item}.`)
+            console.log(`Bought ${player.ingredients[item].purchaseAmount} ${item}`)
         } else {
             console.log("Not enough money")
         } 
+    } else if (item in researches) {
+        if (player.money >= researches[item].price) {
+            player.money -= researches[item].price
+            player.unlockedResearches.push(item)
+            console.log(`Unlocked ${item}, ${player.unlockedResearches}`)
+        }
     } else if (item === "brewTea") {
         if (player.stage === 0) {
             player.stage++
@@ -48,11 +59,11 @@ function haveEnough(required, available) {
 }
 
 function renderUI() {
-    document.querySelector("p span").innerText = player.money
-    document.querySelector("caption span").innerText = player.popularity
+    document.getElementById("cashDisplay").innerText = `Cash: $${player.money}`
+    document.getElementById("popularityDisplay").innerText = `Popularity: ${player.popularity}`
 
     //warehouse
-    document.getElementById("sweetenersRow").style.display = player.ingredients.sweeteners > 0 ? "" : "none"
+    document.getElementById("sweetenersRow").style.display = player.ingredients.sweeteners.unlocked ? "" : "none"
     for (let ingredient in player.ingredients) {
         if (document.getElementById(`${ingredient}Row`).checkVisibility()) {
             document.getElementById(`${ingredient}Stock`).innerText = player.ingredients[ingredient].amount
@@ -69,17 +80,21 @@ function renderUI() {
             document.getElementById(`${tea}Demand`).innerText = player.brewedTea[tea].demand
         }
     }
+
+    //research
+    document.getElementById("researchSection").style.display = player.stage >= 2 ? "" : "none"
+    document.getElementById("lemonJuice").style.display = !researches.lemonJuice.visible ? "" : "none"
 }
 
-const thresholds = [ // popularity, demand per second
+const thresholds = [ //popularity, demand per second
     [50, 0.25],
-    [100, 0.255],
+    [100, 0.27],
     [200, 0.3],
     [600, 0.4],
     [1500, 0.5],
 ]
 const thresholdToDemand = thresholds.map(([max, perSecond], index) => [max, index === 0 ? 0 : thresholds[index - 1][0], perSecond])
-// 0 - max, 1 - min, 2 - demand per second
+//0 - max, 1 - min, 2 - demand per second
 let thresholdIndex = 0
 let timeAccumulated = 0
 function calculateDemand(popularity, delta) {
@@ -109,11 +124,9 @@ function calculateDemand(popularity, delta) {
 }
 
 function sellTea() {
-    for (let tea in player.brewedTea) {
-        if (player.brewedTea[tea].amount > 0 && player.brewedTea[tea].demand > 0) {
-            player.brewedTea[tea].amount--; player.brewedTea[tea].demand--; player.money += player.brewedTea[tea].price; player.popularity++
-        }
-    }
+    const blandTeaSold = Math.min(player.brewedTea.blandTea.amount, player.brewedTea.blandTea.demand)
+    player.brewedTea.blandTea.amount -= blandTeaSold; player.brewedTea.blandTea.demand -= blandTeaSold
+    player.money += blandTeaSold * player.brewedTea.blandTea.price
 }
 
 function updateGame(deltaTime) {
