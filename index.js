@@ -127,6 +127,7 @@ function sellTea() {
     const blandTeaSold = Math.min(player.brewedTea.blandTea.amount, player.brewedTea.blandTea.demand)
     player.brewedTea.blandTea.amount -= blandTeaSold; player.brewedTea.blandTea.demand -= blandTeaSold
     player.money += blandTeaSold * player.brewedTea.blandTea.price
+    player.popularity += blandTeaSold
 }
 
 function updateGame(deltaTime) {
